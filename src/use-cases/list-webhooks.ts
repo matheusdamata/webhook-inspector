@@ -5,9 +5,11 @@ interface ListWebhooksRequest {
   userReferenceId: string
 }
 
-export class ListWebhooks {
-  async execute(props: ListWebhooksRequest, webhookRepository: WebhookRepository): Promise<Webhook[]> {
-    const webhooks = await webhookRepository.findAll(props.userReferenceId)
+export class ListWebhooksUseCase {
+  constructor(private webhookRepository: WebhookRepository) {}
+
+  async execute(props: ListWebhooksRequest): Promise<Webhook[]> {
+    const webhooks = await this.webhookRepository.findAll(props.userReferenceId)
     return webhooks
   }
 }

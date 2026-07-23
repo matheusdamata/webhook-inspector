@@ -1,7 +1,7 @@
 import { Entity } from "./entity";
 import type { UniqueEntityID } from "./unique-entity-id";
 
-interface WebhookProps {
+export interface WebhookProps {
   uniquePath: string
   status: boolean
   expirationAt: string

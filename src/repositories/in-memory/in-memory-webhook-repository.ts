@@ -1,7 +1,7 @@
 import type { Webhook } from "@/entities/webhook";
 import type { WebhookRepository } from "../webhook-repository";
 
-export class WebhookRepositoryInMemory implements WebhookRepository {
+export class InMemoryWebhookRepository implements WebhookRepository {
   public webhooks: Webhook[] = []
   
   async findByUniquePath(uniquePath: string) {

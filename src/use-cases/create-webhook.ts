@@ -8,8 +8,10 @@ interface CreateWebhookRequest {
 }
 
 export class CreateWebhookUseCase {
-  async execute(props: CreateWebhookRequest, webhookRepository: WebhookRepository): Promise<void> {    
-    const isAnExistingWebhook = await webhookRepository.findByUniquePath(props.uniquePath)
+  constructor(private webhookRepository: WebhookRepository) {}
+
+  async execute(props: CreateWebhookRequest): Promise<void> {    
+    const isAnExistingWebhook = await this.webhookRepository.findByUniquePath(props.uniquePath)
     
     if (isAnExistingWebhook) throw new Error('A webhook with this unique path already exists.')
 
@@ -20,6 +22,6 @@ export class CreateWebhookUseCase {
       userReferenceID: new UniqueEntityID(props.userReferenceID)
     })
 
-    await webhookRepository.save(webhook)
+    await this.webhookRepository.save(webhook)
   }
 }
