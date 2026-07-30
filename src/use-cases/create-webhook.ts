@@ -10,7 +10,11 @@ interface CreateWebhookRequest {
 export class CreateWebhookUseCase {
   constructor(private webhookRepository: WebhookRepository) {}
 
-  async execute(props: CreateWebhookRequest): Promise<void> {    
+  async execute(props: CreateWebhookRequest): Promise<void> { 
+    const invalidUserReferenceID = props.userReferenceID.length === 0 || props.userReferenceID === null || props.userReferenceID === undefined
+    
+    if (invalidUserReferenceID) throw new Error('It is necessary to forward the userReferenceID.')
+
     const isAnExistingWebhook = await this.webhookRepository.findByUniquePath(props.uniquePath)
     
     if (isAnExistingWebhook) throw new Error('A webhook with this unique path already exists.')

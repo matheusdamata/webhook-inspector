@@ -30,4 +30,33 @@ describe('List webhook', () => {
     expect(result[0].userReferenceID).toEqual(userID)
     expect(result[0].uniquePath).toEqual('my-webhook-01')
   })
+
+  it('should not be able to list another users webhooks', async () => {
+    const userIDOne = new UniqueEntityID()
+    const userIDTwo = new UniqueEntityID()
+
+    for (let i = 1; i <= 5; i++) {
+      const userOneWebhook = makeWebhook({
+        userReferenceID: userIDOne,
+        uniquePath: `my-webhook-0${i}`,
+      })
+      const userTwoWebhook = makeWebhook({
+        userReferenceID: userIDTwo,
+        uniquePath: `my-webhook-1${i}`,
+      })
+
+      await inMemoryWebhookRepository.save(userOneWebhook)
+      await inMemoryWebhookRepository.save(userTwoWebhook)
+    }
+
+    const result = await sut.execute({ userReferenceId: userIDOne.toString() })
+    expect(result).toHaveLength(5)
+    expect(result).toEqual([
+      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-01' }),
+      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-02' }),
+      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-03' }),
+      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-04' }),
+      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-05' }),
+    ])
+  })
 })
