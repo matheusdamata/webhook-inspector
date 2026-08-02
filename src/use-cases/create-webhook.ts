@@ -4,16 +4,16 @@ import type { WebhookRepository } from "@/repositories/webhook-repository"
 
 interface CreateWebhookRequest {
   uniquePath: string
-  userReferenceID: string
+  creatorID: string
 }
 
 export class CreateWebhookUseCase {
   constructor(private webhookRepository: WebhookRepository) {}
 
   async execute(props: CreateWebhookRequest): Promise<void> { 
-    const invalidUserReferenceID = props.userReferenceID.length === 0 || props.userReferenceID === null || props.userReferenceID === undefined
+    const invalidUserReferenceID = props.creatorID.length === 0 || props.creatorID === null || props.creatorID === undefined
     
-    if (invalidUserReferenceID) throw new Error('It is necessary to forward the userReferenceID.')
+    if (invalidUserReferenceID) throw new Error('It is necessary to forward the creatorID.')
 
     const isAnExistingWebhook = await this.webhookRepository.findByUniquePath(props.uniquePath)
     
@@ -22,10 +22,11 @@ export class CreateWebhookUseCase {
     const webhook = Webhook.create({
       uniquePath: props.uniquePath,
       status: true,
-      expirationAt: '2h',
-      userReferenceID: new UniqueEntityID(props.userReferenceID)
+      expirationTime: '2h',
+      creatorID: new UniqueEntityID(props.creatorID),
+      events: [],
     })
 
-    await this.webhookRepository.save(webhook)
+    await this.webhookRepository.create(webhook)
   }
 }

@@ -9,12 +9,18 @@ export class InMemoryWebhookRepository implements WebhookRepository {
     return webhook ?? null    
   }
 
-  async findAll(userReferenceId: string) {
-    const webhooks = this.webhooks.filter(wh => wh.userReferenceID.toString() === userReferenceId)
+  async findAll(creatorID: string) {
+    const webhooks = this.webhooks.filter(wh => wh.creatorID.toString() === creatorID)
     return webhooks
   }
 
   async save(webhook: Webhook) {
+    const whIndex = this.webhooks.findIndex(wh => wh.uniquePath === webhook.uniquePath)
+  
+    this.webhooks[whIndex] = webhook
+  }
+
+  async create(webhook: Webhook) {
     this.webhooks.push(webhook)
   }
 }

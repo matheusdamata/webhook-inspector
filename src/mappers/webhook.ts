@@ -4,7 +4,7 @@ interface WebhookMapperDTO {
   id: string 
   uniquePath: string
   status: boolean
-  userReferenceID: string 
+  creatorID: string 
 }
 
 export class WebhookMapper {
@@ -13,7 +13,7 @@ export class WebhookMapper {
       id: webhook.id.toString(),
       uniquePath: webhook.uniquePath,
       status: webhook.status,
-      userReferenceID: webhook.userReferenceID.toString()
+      creatorID: webhook.creatorID.toString()
     }
   }
 }

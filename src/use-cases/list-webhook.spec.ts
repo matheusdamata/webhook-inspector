@@ -17,17 +17,17 @@ describe('List webhook', () => {
 
     for (let i = 1; i <= 5; i++) {
       const webhook = makeWebhook({
-        userReferenceID: userID,
+        creatorID: userID,
         uniquePath: `my-webhook-0${i}`
       })
 
-      await inMemoryWebhookRepository.save(webhook)
+      inMemoryWebhookRepository.create(webhook)
     }
 
-    const result = await sut.execute({ userReferenceId: userID.toString() })
+    const result = await sut.execute({ creatorID: userID.toString() })
 
     expect(result).toHaveLength(5)
-    expect(result[0].userReferenceID).toEqual(userID)
+    expect(result[0].creatorID).toEqual(userID)
     expect(result[0].uniquePath).toEqual('my-webhook-01')
   })
 
@@ -37,26 +37,26 @@ describe('List webhook', () => {
 
     for (let i = 1; i <= 5; i++) {
       const userOneWebhook = makeWebhook({
-        userReferenceID: userIDOne,
+        creatorID: userIDOne,
         uniquePath: `my-webhook-0${i}`,
       })
       const userTwoWebhook = makeWebhook({
-        userReferenceID: userIDTwo,
+        creatorID: userIDTwo,
         uniquePath: `my-webhook-1${i}`,
       })
 
-      await inMemoryWebhookRepository.save(userOneWebhook)
-      await inMemoryWebhookRepository.save(userTwoWebhook)
+      await inMemoryWebhookRepository.create(userOneWebhook)
+      await inMemoryWebhookRepository.create(userTwoWebhook)
     }
 
-    const result = await sut.execute({ userReferenceId: userIDOne.toString() })
+    const result = await sut.execute({ creatorID: userIDOne.toString() })
     expect(result).toHaveLength(5)
     expect(result).toEqual([
-      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-01' }),
-      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-02' }),
-      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-03' }),
-      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-04' }),
-      expect.objectContaining({ userReferenceID: userIDOne, uniquePath: 'my-webhook-05' }),
+      expect.objectContaining({ creatorID: userIDOne, uniquePath: 'my-webhook-01' }),
+      expect.objectContaining({ creatorID: userIDOne, uniquePath: 'my-webhook-02' }),
+      expect.objectContaining({ creatorID: userIDOne, uniquePath: 'my-webhook-03' }),
+      expect.objectContaining({ creatorID: userIDOne, uniquePath: 'my-webhook-04' }),
+      expect.objectContaining({ creatorID: userIDOne, uniquePath: 'my-webhook-05' }),
     ])
   })
 })
