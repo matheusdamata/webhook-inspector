@@ -1,11 +1,13 @@
 # Webhook Inspector
+Create a temporary webhook to receive events.
 
-O webhook é uma chamada de api ao contrário: em vez de você ficar perguntando "tem algo novo aí", o servidor irá nos chamar quando algum evento ocorrer. 
+# What is a webhook?
+A webhook is an API call in reverse: instead of you constantly asking "is there anything new?", the server calls us when an event occurs.
 
-# Diferença entre Polling x Webhook
+# Difference between Polling and Webhooks
 
-Polling - Chama a API de 2 em 2 minutos para obter resultado X.
-Webhook - Recebemos a chamada quando o evento ocorrer.
+Polling – Calls the API every 2 minutes to get result X.
+Webhook – We receive the call when the event occurs.
 
 ### Observação
 
