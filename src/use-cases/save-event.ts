@@ -2,9 +2,11 @@ import { WebhookEvent } from "@/entities/webhook-event";
 import type { WebhookRepository } from "@/repositories/webhook-repository";
 
 interface SaveEventRequest {
-  caller: string
   creatorID: string
+  fromIP: string
+  headers: Record<string, string>
   uniquePath: string
+  queryParams?: string
   body?: Record<string, string>
 }
 
@@ -21,10 +23,11 @@ export class SaveEventUseCase {
     if(!hasSameCreatorID) throw new Error('Webhook does not belong to creatorID.')
 
     const webhookEvent = WebhookEvent.create({
-      caller: props.caller,
+      fromIP: props.fromIP,
+      headers: WebhookEvent.convertObjectToString(props.headers),
+      queryParams: props.queryParams ?? undefined,
+      body:  props.body ? WebhookEvent.convertObjectToString(props.body) : undefined
     })
-
-    if (props.body) webhookEvent.body = WebhookEvent.convertObjectToString(props.body)
   
     webhook.addEvent(webhookEvent)
 

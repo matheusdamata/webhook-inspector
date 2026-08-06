@@ -3,6 +3,11 @@ import type { WebhookRepository } from "../webhook-repository";
 
 export class InMemoryWebhookRepository implements WebhookRepository {
   public webhooks: Webhook[] = []
+
+  async findByCreatorID(id: string) {
+    const webhook = this.webhooks.find(wh => wh.creatorID.toString() === id)
+    return webhook ?? null
+  }
   
   async findByUniquePath(uniquePath: string) {
     const webhook = this.webhooks.find(wh => wh.uniquePath === uniquePath)

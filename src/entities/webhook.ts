@@ -68,9 +68,11 @@ export class Webhook extends Entity<WebhookProps> {
     return new Date(creationDate.setHours(creationDate.getHours() + expirationTimeAsNumber))
   }
   
-  static create(props: Optional<WebhookProps, 'expiresIn' | 'createdAt'>, id?: UniqueEntityID) {
+  static create(props: Optional<WebhookProps, 'status' | 'events' | 'expiresIn' | 'createdAt'>, id?: UniqueEntityID) {
     return new Webhook({
       ...props,
+      status: props.status ?? true,
+      events: props.events ?? [],
       expiresIn: this.calculateExpiration(props.expirationTime),
       createdAt: props.createdAt ?? new Date(),
     }, id) 

@@ -31,6 +31,12 @@ describe('List webhook', () => {
     expect(result[0].uniquePath).toEqual('my-webhook-01')
   })
 
+  it('should not be able to list webhooks for a not found creator', async () => {
+    await expect(sut.execute({
+      creatorID: 'not-found'
+    })).rejects.toThrow('Creator not found.')
+  })
+
   it('should not be able to list another users webhooks', async () => {
     const userIDOne = new UniqueEntityID()
     const userIDTwo = new UniqueEntityID()

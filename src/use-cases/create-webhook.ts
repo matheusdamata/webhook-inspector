@@ -21,10 +21,8 @@ export class CreateWebhookUseCase {
 
     const webhook = Webhook.create({
       uniquePath: props.uniquePath,
-      status: true,
       expirationTime: '2h',
       creatorID: new UniqueEntityID(props.creatorID),
-      events: [],
     })
 
     await this.webhookRepository.create(webhook)

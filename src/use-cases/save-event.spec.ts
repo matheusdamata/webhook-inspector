@@ -22,20 +22,35 @@ describe('Save Event', () => {
 
     inMemoryWebhookRepository.create(webhook)
 
+    const headers = {
+      host: 'localhost:3333',
+      'content-type': 'application/json',
+      accept: '*/*',
+      'accept-language': '*',
+      'user-agent': 'curl/8.7.1',
+      'accept-encoding': 'gzip, br',
+      'content-length': '28'
+    }
+
+    const queryParams = '/?user=matheusdamatag'
+
     const eventBody = {
       status: 'payment.created',
       paymentId: '12345-12345-12345',
     }
 
     await sut.execute({
-      caller: 'https://external-server.com/api/notification',
+      fromIP: '1.1.1.1', 
       creatorID: creatorID.toString(),
       uniquePath: '/my-webhook',
+      headers,
+      queryParams,
       body: eventBody,
     })
 
     expect(inMemoryWebhookRepository.webhooks).toHaveLength(1)
-    expect(inMemoryWebhookRepository.webhooks[0].events[0].caller).toEqual('https://external-server.com/api/notification')
+    expect(inMemoryWebhookRepository.webhooks[0].events[0].fromIP).toEqual('1.1.1.1')
+    expect(inMemoryWebhookRepository.webhooks[0].events[0].queryParams).toEqual('/?user=matheusdamatag')
     expect(inMemoryWebhookRepository.webhooks[0].events[0].body).toEqual('{"status":"payment.created","paymentId":"12345-12345-12345"}')
   })
 })

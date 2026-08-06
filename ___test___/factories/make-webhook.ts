@@ -5,10 +5,7 @@ export function makeWebhook(override: Partial<WebhookProps> = {}, id?: UniqueEnt
   const webhook = Webhook.create({
     creatorID: new UniqueEntityID(),
     uniquePath: 'my-webhook',
-    status: true,
     expirationTime: '2h',
-    createdAt: new Date(),
-    events: [],
     ...override,
   }, id)
 

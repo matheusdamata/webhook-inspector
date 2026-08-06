@@ -3,7 +3,8 @@ import { Entity } from "./entity";
 import type { UniqueEntityID } from "./unique-entity-id";
 
 interface WebhookEventProps {
-  caller: string 
+  fromIP: string 
+  headers: string
   body?: string 
   queryParams?: string
   createdAt: Date
@@ -11,8 +12,12 @@ interface WebhookEventProps {
 }
 
 export class WebhookEvent extends Entity<WebhookEventProps> {
-  get caller(): string {
-    return this.props.caller
+  get fromIP(): string {
+    return this.props.fromIP
+  }
+
+  get headers(): string {
+    return this.props.headers
   }
 
   get body(): string | undefined {
@@ -21,6 +26,10 @@ export class WebhookEvent extends Entity<WebhookEventProps> {
 
   get queryParams(): string | undefined {
     return this.props.queryParams
+  }
+
+  set headers(headers: string) {
+    this.props.headers = headers
   }
 
   set body(payload: string) {
