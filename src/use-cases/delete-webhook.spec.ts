@@ -37,6 +37,7 @@ describe('Delete Webhook', () => {
     expect(inMemoryWebhookRepository.webhooks[0].events).toHaveLength(5)
     
     await sut.execute({
+      creatorID: creatorID.toString(),
       uniquePath: webhook.uniquePath,
     })
     
