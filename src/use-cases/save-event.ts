@@ -23,6 +23,10 @@ export class SaveEventUseCase {
     
     if(!hasSameCreatorID) throw new Error(ERROR_MESSAGES["CREATOR_ID_MISMATCH"])
 
+    const webhookIsNotActive = webhook.status === false
+
+    if (webhookIsNotActive) throw new Error(ERROR_MESSAGES.WEBHOOK_INACTIVE)
+
     const webhookEvent = WebhookEvent.create({
       webhookID: webhook.id,
       fromIP: props.fromIP,
