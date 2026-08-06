@@ -2,6 +2,7 @@ import { CreateWebhookUseCase } from "./create-webhook"
 import { InMemoryWebhookRepository } from "@/repositories/in-memory/in-memory-webhook-repository"
 import { makeWebhook } from "../../___test___/factories/make-webhook"
 import { Webhook } from "@/entities/webhook"
+import { ERROR_MESSAGES } from "@/shared/error-messages"
 
 let inMemoryWebhookRepository: InMemoryWebhookRepository
 let sut: CreateWebhookUseCase
@@ -48,13 +49,13 @@ describe('Create webhook', () => {
     await expect(sut.execute({
       uniquePath: 'my-webhook',
       creatorID: 'user-12345'
-    })).rejects.toThrow('A webhook with this unique path already exists.')
+    })).rejects.toThrow(ERROR_MESSAGES["already-exists"])
   })
 
   it('it should not be possible to create a webhook without a creatorID', async () => {
     await expect(sut.execute({
       uniquePath: '/my-webhook',
       creatorID: '',
-    })).rejects.toThrow('It is necessary to forward the creatorID.')
+    })).rejects.toThrow(ERROR_MESSAGES["required-value"])
   })
 })

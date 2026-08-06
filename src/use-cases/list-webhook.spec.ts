@@ -2,6 +2,7 @@ import { InMemoryWebhookRepository } from "@/repositories/in-memory/in-memory-we
 import { ListWebhooksUseCase } from "./list-webhooks"
 import { makeWebhook } from "../../___test___/factories/make-webhook"
 import { UniqueEntityID } from "@/entities/unique-entity-id"
+import { ERROR_MESSAGES } from "@/shared/error-messages"
 
 let inMemoryWebhookRepository: InMemoryWebhookRepository
 let sut: ListWebhooksUseCase
@@ -34,7 +35,7 @@ describe('List webhook', () => {
   it('should not be able to list webhooks for a not found creator', async () => {
     await expect(sut.execute({
       creatorID: 'not-found'
-    })).rejects.toThrow('Creator not found.')
+    })).rejects.toThrow(ERROR_MESSAGES["not-found"])
   })
 
   it('should not be able to list another users webhooks', async () => {

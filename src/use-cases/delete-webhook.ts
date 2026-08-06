@@ -1,4 +1,5 @@
 import type { WebhookRepository } from "@/repositories/webhook-repository";
+import { ERROR_MESSAGES } from "@/shared/error-messages";
 
 interface DeleteWebhookRequest {
   uniquePath: string
@@ -10,7 +11,7 @@ export class DeleteWebhookUseCase {
   async execute(props: DeleteWebhookRequest): Promise<void> {
     const webhookExists = await this.webhookRepository.findByUniquePath(props.uniquePath)
 
-    if (!webhookExists) throw new Error('Webhook not found.')
+    if (!webhookExists) throw new Error(ERROR_MESSAGES["NOT_FOUND"])
 
     await this.webhookRepository.delete(webhookExists.id.toString())
   }
