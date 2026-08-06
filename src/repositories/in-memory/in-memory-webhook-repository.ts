@@ -28,4 +28,10 @@ export class InMemoryWebhookRepository implements WebhookRepository {
   async create(webhook: Webhook) {
     this.webhooks.push(webhook)
   }
+
+  async delete(id: string) {
+    const whIndex = this.webhooks.findIndex(wh => wh.id.toString() === id)
+
+    this.webhooks.splice(whIndex, 1)
+  }
 }

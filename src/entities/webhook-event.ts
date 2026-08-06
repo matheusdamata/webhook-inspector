@@ -2,7 +2,8 @@ import type { Optional } from "@/type/optional";
 import { Entity } from "./entity";
 import type { UniqueEntityID } from "./unique-entity-id";
 
-interface WebhookEventProps {
+export interface WebhookEventProps {
+  webhookID: UniqueEntityID
   fromIP: string 
   headers: string
   body?: string 
@@ -12,6 +13,10 @@ interface WebhookEventProps {
 }
 
 export class WebhookEvent extends Entity<WebhookEventProps> {
+  get webhookID(): UniqueEntityID {
+    return this.props.webhookID
+  }
+
   get fromIP(): string {
     return this.props.fromIP
   }

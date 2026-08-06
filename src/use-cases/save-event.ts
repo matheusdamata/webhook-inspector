@@ -23,6 +23,7 @@ export class SaveEventUseCase {
     if(!hasSameCreatorID) throw new Error('Webhook does not belong to creatorID.')
 
     const webhookEvent = WebhookEvent.create({
+      webhookID: webhook.id,
       fromIP: props.fromIP,
       headers: WebhookEvent.convertObjectToString(props.headers),
       queryParams: props.queryParams ?? undefined,

@@ -6,4 +6,5 @@ export interface WebhookRepository {
   findAll(creatorID: string): Promise<Webhook[]>
   save(webhook: Webhook): Promise<void>
   create(webhook: Webhook): Promise<void>
+  delete(id: string): Promise<void>
 }
